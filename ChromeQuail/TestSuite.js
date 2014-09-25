@@ -16,9 +16,17 @@
 //handle passing a test and the other to handle failing a test. Creates
 //an empty list to which tests may be added.
 var TestSuite = function(fail_handler, success_handler) {
-  this.tests = [];
-  this.failure = fail_handler;
-  this.success = success_handler;
+  if (typeof fail_handler == 'function' &&
+      typeof success_handler == 'function') {
+    this.tests = [];
+    this.failure = fail_handler;
+    this.success = success_handler;
+  }
+
+  else {
+    console.log("Invalid handlers. Aborting TestSuite creation.");
+    console.log("Handlers must be functions.");
+  }
 }
 
 //Adds a test to the end of a test list.
