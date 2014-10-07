@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Accessibility Module",
+  "description": "This extension...",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "ChromeQuail/icon.png",
+    "default_popup": "ChromeQuail/index.html"
+  },
+  "permissions": [
+    
+  ]
+}
