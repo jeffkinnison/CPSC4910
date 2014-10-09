@@ -12,21 +12,21 @@
   manipulate, display, and run the tests in the list.
  */
 
-var PageElement = (function (i, c) {
+var PageElement = (function (i,c) {
   //this.tag = tag;
-  this.i = i;
-  this.c = c;
+  this.i = i;       //The element's id
+  this.c = c;       //The element's class
 });
 
 PageElement.prototype.outputElement = (function () {
   return "ID: " + e.id + ", Class: " + e.class;
 });
 
-var TestResult = (function (title, severity, description) {
-  this.title = title;
-  this.severity = severity;
-  this.description = description;
-  this.elements = [];
+var TestResult = (function (title,severity,description) {
+  this.title = title;             //The QuailJS test title
+  this.severity = severity;       //The severity of a failure
+  this.description = description; //The QuailJS test description
+  this.elements = [];             //The elements that failed the test
 });
 
 TestResult.prototype.addElement = (function (element) {
@@ -47,16 +47,19 @@ TestResult.prototype.displayResult = (function () {
 //Constructor for the TestSuite object that takes two functions: one to
 //handle passing a test and the other to handle failing a test. Creates
 //an empty list to which tests may be added.
-var TestSuite = (function (fail_handler, done_handler, json_path) {
+var TestSuite = (function (fail_handler,done_handler,json_path,output_element) {
   if (typeof fail_handler === 'function' &&
       typeof done_handler === 'function') {
-    this.tests = [];
-    this.results = [];
-    this.failure = fail_handler;
-    this.done = done_handler;
-    this.json_path = json_path;
+
+    this.tests = [];                    //The list of test names to run
+    this.results = [];                  //The list of failed tests
+    this.failure = fail_handler;        //Function for testFailed option
+    this.done = done_handler;           //Function for complete option
+    this.json_path = json_path;         //Path to tests.min.json
+    this.outElement = output_element;   //Element to write results to
+
   } else {
-    console.log("Invalid handlers. Aborting TestSuite creation.");
+    console.log("Error: Invalid handlers. Aborting TestSuite creation.");
     console.log("Handlers must be functions.");
   }
 });
@@ -81,7 +84,7 @@ TestSuite.prototype.remTest = (function (test) {
     //array for the supplied test. This handles the event that the supplied
     //test is not in the array--in that case the same array is returned.
     else {
-      var isSame = function(element, index, array) { element !== test; };
+      var isSame = (function (element,index,array) { element !== test; });
       this.tests = this.tests.filter(isSame);
     }
   } else {
@@ -94,7 +97,7 @@ TestSuite.prototype.currentTests = (function () {
   for (test in this.tests) { console.log(test) };
 });
 
-TestSuite.prototype.addResult = (function (name, title, severity, description) {
+TestSuite.prototype.addResult = (function (name,title,severity,description) {
   this.results[name] = new TestResult(title, severity, description);
 });
 
@@ -112,6 +115,72 @@ TestSuite.prototype.run = (function () {
   }
 });
 
-TestSuite.prototype.displayResult = (function () {
-  this.done(0);
+
+
+
+
+
+/*
+  extensionRunQuail()
+
+    Parameters:
+      None
+
+    Return Value:
+      None
+
+    This function contains the logic for running the test suite in the confines
+    of a browser add-on/extension. It contains the handlers for QuailJS's
+    testFailed and complete options. The function creates a TestSuite instance,
+    obtains the list of tests, and runs the TestSuite.
+ */
+var extensionRunQuail = (function () {
+
+  //The handler for test completion. 
+  var done = (function (event) {
+    console.log(suite.results);
+
+    for (r in suite.results) {
+      $("#quail-ext-results").append(r.displayResult());
+    }
+
+  });
+
+  var failure = (function (event) {
+    event.element.css("border", "5px dashed red");
+
+    $.getJSON("tests.json", function (data) {
+      console.log(event.testName);
+        
+      var test = data[event.testName];
+
+      if (!(event.testName in suite.results)) {
+        console.log("Adding new result");
+        suite.addResult(event.testName, test["title"]["en"],
+                        event.severity, test["description"]["en"]);
+
+      }
+
+      suite.results[event.testName].addElement(new PageElement(
+                    event.element.prop('id'), event.element.prop('class')));
+
+      $("#quail-ext-results").append(suite.results[event.testName].displayResult());
+
+    });
+
+  });
+
+  var jsonPath, outputElement
+
+  var options = $.getJSON("ext-config.json", (function (data) {
+          jsonPath = data.testJSONPath;
+          outputElement = data.resultsElement;
+  }));
+
+  var suite = new TestSuite(failure, complete, jsonPath, outputElement);
+
+  //TODO: GET SELECTED TEST NAMES
+
+  suite.addTest();
+  suite.run();
 });
