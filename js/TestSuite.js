@@ -135,13 +135,14 @@ TestSuite.prototype.run = (function () {
     obtains the list of tests, and runs the TestSuite.
  */
 var extensionRunQuail = (function () {
+  var suite;
 
   //The handler for test completion. 
   var done = (function (event) {
     console.log(suite.results);
 
     for (r in suite.results) {
-      $("#quail-ext-results").append(r.displayResult());
+      $(suite.outElement).append(r.displayResult());
     }
 
   });
@@ -164,7 +165,7 @@ var extensionRunQuail = (function () {
       suite.results[event.testName].addElement(new PageElement(
                     event.element.prop('id'), event.element.prop('class')));
 
-      $("#quail-ext-results").append(suite.results[event.testName].displayResult());
+      $(suite.outElement).append(suite.results[event.testName].displayResult());
 
     });
 
@@ -177,7 +178,7 @@ var extensionRunQuail = (function () {
           outputElement = data.resultsElement;
   }));
 
-  var suite = new TestSuite(failure, complete, jsonPath, outputElement);
+  suite = new TestSuite(failure, complete, jsonPath, outputElement);
 
   //TODO: GET SELECTED TEST NAMES
 
