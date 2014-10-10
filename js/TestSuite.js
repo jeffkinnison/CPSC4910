@@ -134,7 +134,7 @@ TestSuite.prototype.run = (function () {
     testFailed and complete options. The function creates a TestSuite instance,
     obtains the list of tests, and runs the TestSuite.
  */
-var extensionRunQuail = (function () {
+var extensionRunQuail = (function (guideline) {
   var suite;
 
   //The handler for test completion. 
@@ -171,17 +171,20 @@ var extensionRunQuail = (function () {
 
   });
 
-  var jsonPath, outputElement
+  var jsonPath = "js", outputElement = "#quail-ext-results";
 
-  var options = $.getJSON("ext-config.json", (function (data) {
+  var options = $.getJSON("js/ext-config.json", (function (data) {
           jsonPath = data.testJSONPath;
           outputElement = data.resultsElement;
   }));
 
-  suite = new TestSuite(failure, complete, jsonPath, outputElement);
+  console.log(jsonPath);
+  console.log(outputElement);
+
+  suite = new TestSuite(failure, done, jsonPath, outputElement);
 
   //TODO: GET SELECTED TEST NAMES
 
-  suite.addTest();
+  suite.tests = guideline;
   suite.run();
 });

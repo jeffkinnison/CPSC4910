@@ -2,9 +2,9 @@
 
 <head>
 
-<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="quail.jquery.min.js"></script>
-<script type="text/javascript" src="TestSuite.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/quail.jquery.min.js"></script>
+<script type="text/javascript" src="js/TestSuite.js"></script>
 
 </head>
 
@@ -12,33 +12,7 @@
 
 <script>
 	var setupAndRunTest = (function () {
-		var complete = (function (event) {
-			console.log(suite.results);
-			for (r in suite.results) {
-				$("#result").append(r.displayResult());
-			}
-		});
-
-		var failure = (function (event) {
-			event.element.css("border", "5px dashed red");
-			$.getJSON("tests.json", function (data) {
-				console.log(event.testName);
-				var test = data[event.testName];
-				if (!(event.testName in suite.results)) {
-					console.log("Adding new result");
-					suite.addResult(event.testName, test["title"]["en"], event.severity, test["description"]["en"]);
-				}
-				suite.results[event.testName].addElement(new PageElement(event.element.prop('id'), event.element.prop('class')));
-				$("#result").append(suite.results[event.testName].displayResult());
-			});
-		});
-
-		var suite = new TestSuite(failure, complete, ".");
-
-		suite.addTest('imgHasAlt');
-		suite.addTest('doctypeProvided');
-		suite.run();
-		suite.displayResult();
+		extensionRunQuail(['imgHasAlt','doctypeSpecified']);
 	});
 </script>
 
@@ -46,7 +20,7 @@
 
 <button onclick="setupAndRunTest()">Test</button>
 
-<div id="result"></div>
+<div id="quail-ext-results"></div>
 
 </body>
 
