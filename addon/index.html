@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- start head -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS stylesheets and Google Fonts-->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-switch.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+
+    <!-- Custom style (will move later to 'custom.css') -->
+    <style>
+       body {
+          width: 700px;
+          padding-bottom: 20px;
+       }
+
+       h1 {
+          font-family: 'Droid Serif', serif;
+       }
+
+       #border2 {
+          background-color: #78b6d3;
+          height: 15px;
+       }
+
+       #border1 {
+          background-color: #f2f2f2;
+
+       }
+
+    </style>
+  </head>
+  <!-- end head -->
+
+  <!-- start body -->
+  <body>
+
+    <div class="container">
+      <!-- page title and icon -->
+      <div class="text-center">
+        <h1>Web Accessibility Tool <small><a href="about.html"><span class="glyphicon glyphicon-info-sign" title="Click to see additional information"></span></a></small></h1>
+      </div>
+         
+      <!-- create blue divider --> 
+      <div id="border2">
+      </div>
+
+
+      <!-- create expandable table -->
+      <table class="table table-hover">
+
+        <!-- Row: Test 1 -->
+        <tr>
+          <!-- bootstrap switch -->
+          <td width="150px">
+            <input id="p1" type="checkbox" data-on-color="success" data-off-color="danger" name="my-checkbox" checked>
+          </td>
+
+          <!-- test 1 table content -->
+          <td>
+            <h4><a title="Click to expand" style="cursor: pointer; text-decoration: none" data-toggle="collapse" data-target="#viewdetails1">WCAG 2.0</a></h4>
+
+            <p class="collapse" id="viewdetails1">Web Content Accessibility Guidelines (WCAG) 2.0 covers a wide range of recommendations for making Web content more accessible. Following these guidelines will make content accessible to a wider range of people with disabilities, and often make your Web content more usable to users in general. </p>
+          </td>
+        </tr>
+
+        <!-- Row: Test 2 -->
+        <tr>
+          <!-- bootstrap switch -->
+          <td>
+            <input id="p2" type="checkbox" data-on-color="success" data-off-color="danger" name="my-checkbox" checked>
+          </td>
+
+          <!-- test 2 table content -->
+          <td>
+            <h4><a title="Click to expand" style="cursor: pointer; text-decoration: none" data-toggle="collapse" data-target="#viewdetails2">United States Section 508</a></h4>
+
+            <p class="collapse" id="viewdetails2">Section 508 of the Rehabilitation Act requires federal agencies to develop, procure, maintain, and use electronic and information technology that is accessible to people with disabilities. </p>
+          </td>
+        </tr>
+
+      </table>
+
+      <form role="form" class="text-center">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="sev" checked>Severe
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="mod" checked>Moderate
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="sug">Suggestion
+        </label>
+      </form>
+
+      <br/>
+
+      <!-- Run button -->
+      <div class="text-center">
+        <button type="button" id="btn-generate" data-loading-text="Loading..." class="btn btn-primary btn-md has-spinner" style="width:200px;">Run</button>
+      </div>
+          
+    </div>
+    <!-- end container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../js/jquery-1.11.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-switch.min.js"></script>
+    <script src="../js/custom.js"></script>
+    <script src="../js/quail.jquery.min.js"></script>
+    <script src="../js/button.js"></script>
+
+  </body>
+  <!-- end body -->
+
+</html>

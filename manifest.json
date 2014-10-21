@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "name":    "Web Accessibility Tool",
+    "version": "0.0",
+    "offline_enabled": true,
+
+    "background": {
+        "persistent": false,
+        "scripts": ["js/background.js"]
+    },
+
+    "content_scripts": [{
+        "matches":    ["<all_urls>"],
+        "js":         ["js/jquery-1.11.1.min.js", "js/content.js", "js/TestSuite.js", "js/quail.jquery.min.js"],
+        "run_at":     "document_idle",
+        "all_frames": false
+    }],
+
+    "browser_action": {
+        "default_title": "Test Extension",
+        "default_icon": "icon.png",
+        "default_popup": "addon/index.html"
+    },
+
+    // No special permissions required...
+    "permissions": [],
+
+    "web_accessible_resources": ["js/*"]
+}
