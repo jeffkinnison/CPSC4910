@@ -7,6 +7,7 @@ function setDOMInfo(info) {
 
     for (var i = 0; i < res.length; i++) {
         var out = "<div class='quail-fail'><h3>" + res[i].title + "</h3>";
+        out += "<h4>Number of Failed Elements: " + res[i].num_fails.toString() + "</h4>";
         out += "<p>Severity: <code>" + res[i].severity + "</code></p><p>" + res[i].description + "</p><hr/></div>";
         $("#quail-ext-results").append(out);
     }
@@ -15,11 +16,6 @@ function setDOMInfo(info) {
         $("#quail-ext-results").html("<h4>No errors were found!</h4>");
     }
     download($("#quail-ext-results").html());
-    //for (r in suite.results) {
-      //$("#quail-ext-results").append(r.title));
-    //}
-    //info.quailRes.outputResults();
-    //$('#quail-ext-results').html(info.quailRes);
 }
 
 function download(info) {
